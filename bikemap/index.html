@@ -14,18 +14,95 @@
         <script src='https://api.mapbox.com/mapbox-gl-js/v0.20.1/mapbox-gl.js'></script>
         <link href='https://api.mapbox.com/mapbox-gl-js/v0.20.1/mapbox-gl.css' rel='stylesheet' />
 
+        <!-- jquery -->
+        <script src="js/jquery-1.12.4.min.js"></script>
+
+        <!-- overpass json to geojson using osmtogeojson() -->
+        <script src='js/osmtogeojson.js'></script>
 
     </head>
     <body>
-	<p> hello, world! </p>
+	
 
-    <div id='map' style='width: 400px; height: 300px;'></div>
+    <!--<div id='map' style='width: 400px; height: 300px;'></div>-->
+    
+    <div id='map' style='position:absolute; top:0; bottom:0; width:100%;'></div></br>
+    <button id='mybutton' onclick="loadOSMData()" style='position:absolute; top:10; left:10;'>where the burgers at</button>
+    
     <script>
+
     mapboxgl.accessToken = 'pk.eyJ1Ijoic2NvdHR0Ym9vbmUiLCJhIjoiY2lsdjB3NHM4MDFocnZka3NvZ3QydDQydyJ9.Wy_MJGjGTCbcg4iNm7ffJg';
       var map = new mapboxgl.Map({
           container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v9'
+          style: 'mapbox://styles/mapbox/dark-v9',
+          center: [-97.724,30.262],
+          zoom: [14]
       });
+
+
+   //map.on('click', loadOSMData());
+
+    // load openstreetmap data
+    function loadOSMData() {
+        document.getElementById('mybutton').value = "loading..."
+        jQuery.ajax({
+            
+            url:
+                'https://overpass-api.de/api/interpreter?data=' + 
+                '[out:json];' +
+                'node[amenity=restaurant]' + 
+                '('+
+                map.getBounds().getSouth() +','+
+                map.getBounds().getWest() +','+
+                map.getBounds().getNorth() +','+
+                map.getBounds().getEast() +');'+
+                'out;',
+            dataType: 'json',
+            type: 'GET',
+            async: true,
+            crossDomain: true, 
+            //success: function(json) {
+            //    console.log(JSON.stringify(osmtogeojson(json)));
+            //},
+            success: function(json) {
+
+                // convert map data into geojson format
+                var mapdata = new mapboxgl.GeoJSONSource({
+                    data: osmtogeojson(json)
+                });
+
+                 // add source
+                try{map.removeSource('markers');}catch(err){}
+                map.addSource('markers', mapdata);
+
+                // show source on map
+                map.addLayer({
+                    "id": "markers",
+                    "type": "symbol",
+                    "source": "markers",
+                    "layout": {
+                        "icon-image": "fast-food-15"
+                    }
+
+                });
+
+                //console.log(JSON.stringify(osmtogeojson(json)));
+            },
+        }).done(function() {
+            console.log( "second success" );
+            document.getElementById('mybutton').innerHTML = "loading..."
+
+        }).fail(function(error) {
+            console.log(error);
+            console.log( "error" );
+            document.getElementById('mybutton').innerHTML = "[error]"
+        }).always(function() {
+            console.log( "complete" );
+            document.getElementById('mybutton').innerHTML = "where the burgers at "
+        });
+
+
+    };
     </script>
 
     </body>
