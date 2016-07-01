@@ -38,7 +38,11 @@
           center: [-97.724,30.262],
           zoom: [14]
       });
+    //map should load data for bounds on map movement? maybe with delay?
 
+    // function that accepts a current location and maps it to the nearest node in set
+
+    // function that 
 
    //map.on('click', loadOSMData());
 
@@ -68,7 +72,7 @@
 
                 // convert map data into geojson format
                 var mapdata = new mapboxgl.GeoJSONSource({
-                    data: osmtogeojson(json)
+                    data: osmtogeojson(json, "flatProperties")
                 });
 
                  // add source
@@ -81,12 +85,13 @@
                     "type": "symbol",
                     "source": "markers",
                     "layout": {
-                        "icon-image": "fast-food-15"
+                        "icon-image": "fast-food-15",
+                        "text-field": "{name}"
                     }
 
                 });
 
-                //console.log(JSON.stringify(osmtogeojson(json)));
+                console.log(JSON.stringify(osmtogeojson(json,{"flatProperties":true})));
             },
         }).done(function() {
             console.log( "second success" );
