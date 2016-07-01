@@ -49,17 +49,37 @@
     // load openstreetmap data
     function loadOSMData() {
         document.getElementById('mybutton').value = "loading..."
+        mybounds = '('+
+            map.getBounds().getSouth() +','+
+            map.getBounds().getWest() +','+
+            map.getBounds().getNorth() +','+
+            map.getBounds().getEast() +')'
+
+        //mybounds - '(30.250879189641353,-97.73687460327172,30.273119551100805,-97.71112539672875)'
+        var request = 
+
+
+
+
+
+
         jQuery.ajax({
             
             url:
-                'https://overpass-api.de/api/interpreter?data=' + 
+                'http://overpass.osm.rambler.ru/cgi/interpreter?data='+
+                //'https://overpass-api.de/api/interpreter?data=' + 
                 '[out:json];' +
-                'node[amenity=restaurant]' + 
                 '('+
-                map.getBounds().getSouth() +','+
-                map.getBounds().getWest() +','+
-                map.getBounds().getNorth() +','+
-                map.getBounds().getEast() +');'+
+                    'way[highway="residential"]' + mybounds + ';' +
+                    'way[highway="tertiary"]' + mybounds + ';' +
+                    'way[highway="unclassified"]' + mybounds + ';' +
+                    'way[highway="cycleway"]' + mybounds + ';' +
+                    'way[highway="footway"]' + mybounds + ';' +
+                    'way[highway="living_street"]' + mybounds + ';' +
+                    'way[highway="pedestrian"]' + mybounds + ';' +
+                    'way[highway="service"]' + mybounds + ';' +
+                ');'+
+                '(._;>;);'+ //include all nodes recursively
                 'out;',
             dataType: 'json',
             type: 'GET',
@@ -69,29 +89,34 @@
             //    console.log(JSON.stringify(osmtogeojson(json)));
             //},
             success: function(json) {
-
+                console.log(JSON.stringify(osmtogeojson(json)));
+                
                 // convert map data into geojson format
                 var mapdata = new mapboxgl.GeoJSONSource({
-                    data: osmtogeojson(json, "flatProperties")
+                    data: osmtogeojson(json)
                 });
 
                  // add source
-                try{map.removeSource('markers');}catch(err){}
-                map.addSource('markers', mapdata);
+                try{map.removeSource('path');}catch(err){}
+                map.addSource('path', mapdata);
 
                 // show source on map
                 map.addLayer({
-                    "id": "markers",
-                    "type": "symbol",
-                    "source": "markers",
+                    "id": "path",
+                    "type": "line",
+                    "source": "path",
                     "layout": {
-                        "icon-image": "fast-food-15",
-                        "text-field": "{name}"
+                        "line-join": "round",
+                        "line-cap": "round"
+                    },
+                    "paint": {
+                        "line-color": "#ff00ff",
+                        "line-width": 2
                     }
 
                 });
 
-                console.log(JSON.stringify(osmtogeojson(json,{"flatProperties":true})));
+                
             },
         }).done(function() {
             console.log( "second success" );
