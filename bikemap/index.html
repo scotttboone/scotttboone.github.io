@@ -20,95 +20,16 @@
         <!-- overpass json to geojson using osmtogeojson() -->
         <script src='js/osmtogeojson.js'></script>
 
+        <!-- main javascript source -->
+        <script type="text/javascript" src='js/main.js'></script>
     </head>
     <body>
-	
-
-    <!--<div id='map' style='width: 400px; height: 300px;'></div>-->
-    
-    <div id='map' style='position:absolute; top:0; bottom:0; width:100%;'></div></br>
-    <button id='mybutton' onclick="loadOSMData()" style='position:absolute; top:10; left:10;'>where the burgers at</button>
-    
-    <script>
-
-    mapboxgl.accessToken = 'pk.eyJ1Ijoic2NvdHR0Ym9vbmUiLCJhIjoiY2lsdjB3NHM4MDFocnZka3NvZ3QydDQydyJ9.Wy_MJGjGTCbcg4iNm7ffJg';
-      var map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/dark-v9',
-          center: [-97.724,30.262],
-          zoom: [14]
-      });
-    //map should load data for bounds on map movement? maybe with delay?
-
-    // function that accepts a current location and maps it to the nearest node in set
-
-    // function that 
-
-   //map.on('click', loadOSMData());
-
-    // load openstreetmap data
-    function loadOSMData() {
-        document.getElementById('mybutton').value = "loading..."
-        jQuery.ajax({
-            
-            url:
-                'https://overpass-api.de/api/interpreter?data=' + 
-                '[out:json];' +
-                'node[amenity=restaurant]' + 
-                '('+
-                map.getBounds().getSouth() +','+
-                map.getBounds().getWest() +','+
-                map.getBounds().getNorth() +','+
-                map.getBounds().getEast() +');'+
-                'out;',
-            dataType: 'json',
-            type: 'GET',
-            async: true,
-            crossDomain: true, 
-            //success: function(json) {
-            //    console.log(JSON.stringify(osmtogeojson(json)));
-            //},
-            success: function(json) {
-
-                // convert map data into geojson format
-                var mapdata = new mapboxgl.GeoJSONSource({
-                    data: osmtogeojson(json, "flatProperties")
-                });
-
-                 // add source
-                try{map.removeSource('markers');}catch(err){}
-                map.addSource('markers', mapdata);
-
-                // show source on map
-                map.addLayer({
-                    "id": "markers",
-                    "type": "symbol",
-                    "source": "markers",
-                    "layout": {
-                        "icon-image": "fast-food-15",
-                        "text-field": "{name}"
-                    }
-
-                });
-
-                console.log(JSON.stringify(osmtogeojson(json,{"flatProperties":true})));
-            },
-        }).done(function() {
-            console.log( "second success" );
-            document.getElementById('mybutton').innerHTML = "loading..."
-
-        }).fail(function(error) {
-            console.log(error);
-            console.log( "error" );
-            document.getElementById('mybutton').innerHTML = "[error]"
-        }).always(function() {
-            console.log( "complete" );
-            document.getElementById('mybutton').innerHTML = "where the burgers at "
-        });
-
-
-    };
-    </script>
-
+ 
+    <div id="container">
+        <div id='map' style='position:absolute; height:100%; width:100%;z-index: 0;'></div>
+        <div id='debug' style='position: fixed; bottom:0; left: 0; right:200px; top: 90%; z-index: 10;background-color:white; color:black; font-family: courier; font-size: 8pt;'></div>
+        <button id='mybutton' onclick="loadOSMData()" style='position: fixed; top: 0;'>where the burgers at</button>
+    </div>
+ 
     </body>
 </html>
