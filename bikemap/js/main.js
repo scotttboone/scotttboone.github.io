@@ -64,8 +64,8 @@ function loadOSMData() {
     var myOverpassQuery = 
 
             // server
-            'http://overpass.osm.rambler.ru/cgi/interpreter?data='+
-            //'https://overpass-api.de/api/interpreter?data=' + 
+            //'http://overpass.osm.rambler.ru/cgi/interpreter?data='+
+            'https://overpass-api.de/api/interpreter?data=' + 
 
             // output type
             '[out:json];' +
