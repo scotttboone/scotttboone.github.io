@@ -36,6 +36,7 @@ function loadMapbox() {
 	      center: [-97.724,30.262],
 	      zoom: [14]
 	  });
+
 }
 
 
@@ -45,7 +46,7 @@ function loadMapbox() {
 
 // function that 
 
-//map.on('click', loadOSMData());
+
 
 // load openstreetmap data; returns geojson object
 function loadOSMData() {
@@ -74,7 +75,7 @@ function loadOSMData() {
                 // geo radius
                 'way' + '(around:' + myRadius + ',' + myCenter.lat + ',' + myCenter.lng + ')' +
                 // segement types
-                '[~"highway|cycleway"~"residential|tertiary|unclassified|cycleway|footway|living_street|pedestrian|service"]' +
+                '[~"highway|cycleway"~"residential|tertiary|unclassified|cycleway|living_street|pedestrian|service"]' +
             ');'+
             '(._;>;);'+ //include all nodes recursively
 
@@ -104,7 +105,7 @@ function loadOSMData() {
         document.getElementById('mybutton').innerHTML = "[error]"
     }).always(function() {
         console.log( "complete" );
-        document.getElementById('mybutton').innerHTML = "where the burgers at "
+        document.getElementById('mybutton').innerHTML = "Where can I bike?"
     });
 
 };
@@ -130,7 +131,7 @@ function plotData(json) {
         },
         "paint": {
             "line-color": "#ff00ff",
-            "line-width": 2
+            "line-width": 1.5
         }   
     });
 
