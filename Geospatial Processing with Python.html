@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://jwass.github.io/maptime-boston-python/slides/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Jacob Wasserman / @jwass2000">
+  <title>Geospatial Processing   with Python</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="./Geospatial Processing with Python_files/reveal.css">
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="./Geospatial Processing with Python_files/night.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><link rel="stylesheet" type="text/css" href="./Geospatial Processing with Python_files/paper.css">
+
+  <style type="text/css">
+      .reveal pre.sourceCode {
+          line-height: 1.5em;
+          font-size: 0.65em;
+      }
+  
+      .reveal a {
+          color: #78dcfd;
+      }
+  
+      .reveal h1 {
+          font-weight: bold;
+          font-size: 3.0em;
+      }
+  
+      .reveal h2.author {
+          text-align: left;
+      }
+      .reveal h1.title {
+          text-align: left;
+          font-size: 2.7em;
+      } 
+  </style>
+</head>
+<body style="transition: -webkit-transform 0.8s ease;">
+  <div class="reveal slide center" role="application" data-transition-speed="default" data-background-transition="fade">
+    <div class="slides" style="width: 960px; height: 700px; zoom: 1.20986;">
+
+<section style="top: 118px; display: none;" class="past" data-index-h="0" hidden="" aria-hidden="true">
+  <h1 class="title">Geospatial Processing <br> with Python</h1>
+  <h2 class="author"><small>Jacob Wasserman / <a href="https://twitter.com/jwass200"><span class="citation" data-cites="jwass2000">@jwass2000</span></a></small></h2>
+  <h3 class="date"><small><a href="https://twitter.com/MaptimeBoston">Maptime Boston</a> — 2016-06-15</small></h3>
+</section>
+
+<section class="slide level1 stack past" style="top: 0px; display: none;" data-previous-indexv="0" data-index-h="1" hidden="" aria-hidden="true">
+
+<section style="top: 206.5px; display: none;" class="" data-index-h="1" data-index-v="0" aria-hidden="true">
+<h3>
+Follow along:
+</h3>
+<h3>
+<a href="https://jwass.github.io/maptime-boston-python/slides" class="uri">https://jwass.github.io/maptime-boston-python/slides</a>
+</h3>
+</section>
+</section>
+<section id="overview" class="slide level1 past" style="top: 149px; display: block;" data-index-h="2" hidden="" aria-hidden="true">
+<h1>Overview</h1>
+<ul>
+<li>Why Cython?</li>
+<li>Core Geospatial Libraries</li>
+<li>Geospatial Python Libraries</li>
+<li>Examples and Exercises</li>
+</ul>
+</section>
+<section id="why-python" class="slide level1 past" style="top: 246px; display: block;" data-index-h="3" hidden="" aria-hidden="true">
+<h1>Why Python?</h1>
+</section>
+<section id="scientific-computing" class="slide level1 present" style="top: 129.5px; display: block;" data-index-h="4">
+<h1>Scientific Computing</h1>
+<ul>
+<li><a href="http://numpy.org/">numpy</a>: vectorized array/matrix data structures</li>
+<li><a href="http://scipy.org/">scipy</a>: linear algebra, optimization, and much more</li>
+<li><a href="http://pandas.pydata.org/">pandas</a>: data analysis, extraction, cleaning</li>
+<li><a href="http://scikit-image.org/">scikit-image</a>: image processing</li>
+<li><a href="http://scikit-learn.org/stable/">scikit-learn</a>: machine learning</li>
+</ul>
+</section>
+<section id="web-frameworks" class="slide level1 future" style="top: 148.5px; display: block;" data-index-h="5" hidden="" aria-hidden="true">
+<h1>Web Frameworks</h1>
+<ul>
+<li><a href="https://djangoproject.com/">Django</a>: "batteries included" framework</li>
+<li><a href="http://flask.pocoo.org/">Flask</a>: "microframework" with large community of extensions and functionality</li>
+</ul>
+<p>Many companies are built with Python as primary backend language</p>
+</section>
+<section id="repl-environments" class="slide level1 future" style="top: 168.5px; display: block;" data-index-h="6" hidden="" aria-hidden="true">
+<h1><a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">REPL</a> environments</h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">Read Eval Print Loop</a></li>
+<li><a href="https://ipython.org/">ipython</a>: interactive computing environment</li>
+<li><a href="http://jupyter.org/">Jupyter Notebook</a>: web-based with inline results and presentation</li>
+</ul>
+</section>
+<section id="glue-language" class="slide level1 future" style="top: 0px; display: none;" data-index-h="7" hidden="" aria-hidden="true">
+<h1>Glue Language</h1>
+<ul>
+<li><a href="http://docs.scipy.org/doc/numpy-1.10.1/user/c-info.python-as-glue.html">"Using Python as a Glue Language"</a></li>
+<li>Python bindings "wrap" C/C++ libraries</li>
+<li>Enables idiomatic Python constructs with C/C++ speed and memory control when necessary</li>
+<li>Don't have to re-code a library in Python to use it from Python.</li>
+<li><a href="http://cython.org/">cython</a>: a Python-like language that compiles C extensions</li>
+</ul>
+</section>
+<section id="much-more" class="slide level1 future" style="top: 0px; display: none;" data-index-h="8" hidden="" aria-hidden="true">
+<h1>Much More!</h1>
+</section>
+<section id="core-geospatial-libraries" class="slide level1 future" style="top: 0px; display: none;" data-index-h="9" hidden="" aria-hidden="true">
+<h1>Core Geospatial Libraries</h1>
+</section>
+<section id="common-spatial-needs" class="slide level1 future" style="top: 0px; display: none;" data-index-h="10" hidden="" aria-hidden="true">
+<h1>Common Spatial Needs</h1>
+<ul>
+<li>Spatial predicates, operations, computational geometry (shape intersections, point in polygon, <a href="https://en.wikipedia.org/wiki/DE-9IM">DE-9IM</a> )</li>
+<li>File I/O (vector / raster) for many formats</li>
+<li>Raster image manipulation</li>
+<li>Projections and transformations</li>
+<li>Spatial indexing</li>
+</ul>
+</section>
+<section id="geos" class="slide level1 future" style="top: 0px; display: none;" data-index-h="11" hidden="" aria-hidden="true">
+<h1><a href="https://trac.osgeo.org/geos/">GEOS</a></h1>
+<ul>
+<li>Geometry Engine Open Source</li>
+<li>Defines Point, LineString, Polygon, Multi* types</li>
+<li>Spatial predicates (intersects, contains, touches, etc) and other operations between any combination of geometries</li>
+<li>Most PostGIS geometry type (but not geography) operations use GEOS under the hood</li>
+</ul>
+</section>
+<section id="gdal" class="slide level1 future" style="top: 0px; display: none;" data-index-h="12" hidden="" aria-hidden="true">
+<h1><a href="http://www.gdal.org/">GDAL</a></h1>
+<ul>
+<li>Geospatial Data Abstraction Library</li>
+<li>Reads and writes both vector and raster data for many formats</li>
+<li>Raster manipulation capability</li>
+<li>Installs utility programs <code>ogr2ogr</code>, <code>ogrinfo</code>, <code>gdalwarp</code>, etc.</li>
+<li>OGR stands for ¯\_(ツ)_/¯</li>
+<li><a href="http://gis.stackexchange.com/questions/72120/why-do-people-pronounce-gdal-geospatial-data-abstraction-library-like-goo-dal">How do you pronounce GDAL?</a> ¯\_(ツ)_/¯</li>
+<li>See <a href="https://4326.us/maptime-data-formats/#/">Shaun Walbridge's Maptime Boston Presentation</a> about geospatial file formats</li>
+</ul>
+</section>
+<section id="proj.4" class="slide level1 future" style="top: 0px; display: none;" data-index-h="13" hidden="" aria-hidden="true">
+<h1><a href="https://trac.osgeo.org/proj/">PROJ.4</a></h1>
+<ul>
+<li>Library and <code>proj</code> utility to convert data between projections</li>
+<li>Defines the <code>+proj=poly -m 1:25000 +lat_0=35 ...</code> projection definitions</li>
+<li>See <a href="http://mjfoster83.github.io/projections/index.html#/">Mike Foster's Maptime Boston Presentation</a> about projections</li>
+</ul>
+</section>
+<section id="libspatialindex" class="slide level1 future" style="top: 0px; display: none;" data-index-h="14" hidden="" aria-hidden="true">
+<h1><a href="https://libspatialindex.github.io/">libspatialindex</a></h1>
+<ul>
+<li>Library for creating and storing spatial indexes: <a href="https://en.wikipedia.org/wiki/R-tree">R-trees</a> and variants fast.</li>
+<li>Provides indexes for spatial+temporal data (<code>MVTree</code> and <code>TPRTree</code>)</li>
+<li>Spatial indexing is a critical component of keeping spatial applications</li>
+</ul>
+</section>
+<section id="geospatial-libraries" class="slide level1 future" style="top: 0px; display: none;" data-index-h="15" hidden="" aria-hidden="true">
+<h1>Geospatial Libraries</h1>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Capability</th>
+<th>C/C++ Library</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Spatial Operations</td>
+<td><a href="https://trac.osgeo.org/geos/">GEOS</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vector I/O</td>
+<td><a href="http://www.gdal.org/">GDAL (OGR)</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Raster Operations and I/O</td>
+<td><a href="http://www.gdal.org/">GDAL</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Projections</td>
+<td><a href="https://trac.osgeo.org/proj/">PROJ.4</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spatial Indexing</td>
+<td><a href="https://libspatialindex.github.io/">libspatialindex</a></td>
+</tr>
+</tbody>
+</table>
+<p>Many geospatial applications use one or more of these</p>
+</section>
+<section id="python-geospatial" class="slide level1 future" style="top: 0px; display: none;" data-index-h="16" hidden="" aria-hidden="true">
+<h1>Python Geospatial</h1>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Capability</th>
+<th>C/C++ Library</th>
+<th style="text-align: left;">Python Library</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Spatial Operations</td>
+<td><a href="https://trac.osgeo.org/geos/">GEOS</a></td>
+<td style="text-align: left;"><a href="http://toblerity.org/shapely/manual.html">shapely</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vector I/O</td>
+<td><a href="http://www.gdal.org/">GDAL (OGR)</a></td>
+<td style="text-align: left;"><a href="http://toblerity.org/fiona/manual.html">fiona</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Raster Operations and I/O</td>
+<td><a href="http://www.gdal.org/">GDAL</a></td>
+<td style="text-align: left;"><a href="https://github.com/mapbox/rasterio">rasterio</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Projections</td>
+<td><a href="https://trac.osgeo.org/proj/">PROJ.4</a></td>
+<td style="text-align: left;"><a href="http://jswhit.github.io/pyproj/">pyproj</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spatial Indexing</td>
+<td><a href="https://libspatialindex.github.io/">libspatialindex</a></td>
+<td style="text-align: left;"><a href="https://pypi.python.org/pypi/Rtree/">rtree</a></td>
+</tr>
+</tbody>
+</table>
+<p>Python "glue" libraries wrap low-level functionality.</p>
+</section>
+<section id="shapely" class="slide level1 future" style="top: 0px; display: none;" data-index-h="17" hidden="" aria-hidden="true">
+<h1><a href="http://toblerity.org/shapely/manual.html">shapely</a></h1>
+<p>Create and manipulate 2D geometry objects</p>
+<pre><code>from shapely.geometry import Point, LineString, Polygon
+
+p = Point(x, y)
+line = LineString([(x0, y0), (x1, y1), (x2, y2)])
+polygon = Polygon([(x0, y0), (x1, y1), (x2, y2)])
+</code></pre>
+<ul>
+<li>Creates GEOS geometry objects under the hood</li>
+<li>Spatial predicates: <code>intersects</code>, <code>contains</code>, <code>within</code>, <code>crosses</code>, ...</li>
+<li>Spatial analysis: <code>intersection</code>, <code>difference</code>, <code>union</code>, ...</li>
+</ul>
+</section>
+<section id="fiona" class="slide level1 future" style="top: 0px; display: none;" data-index-h="18" hidden="" aria-hidden="true">
+<h1><a href="http://toblerity.org/fiona/manual.html">fiona</a></h1>
+<ul>
+<li>"Fiona is OGR’s neat, nimble, no-nonsense API" (FIONnnA)</li>
+<li>I like to remember it as File I/O or Feature I/O</li>
+<li>Reads and writes vector formats with a GeoJSON-like model (i.e., features with a geometry and key/value properties)</li>
+<li><code>fio</code> command line program for quick access and for use in command pipelines</li>
+<li>Uses GDAL under the hood</li>
+</ul>
+</section>
+<section id="fiona-1" class="slide level1 future" style="top: 0px; display: none;" data-index-h="19" hidden="" aria-hidden="true">
+<h1><a href="http://toblerity.org/fiona/manual.html">fiona</a></h1>
+<pre><code>import fiona
+
+with fiona.open('Boston_Neighborhoods.shp') as f:
+    crs = f.crs
+    features = list(f)
+
+print(crs)
+  {'init': u'epsg:4326'}
+
+print(features[0])
+  {'type': 'Feature',
+   'geometry': { 'type': 'MultiPolygon', 'coordinates': ...},
+   'id': '0',
+   'properties': OrderedDict([('Acres', 1605.56181523),
+                ('Name', 'Roslindale'),
+                ('OBJECTID', 1),
+                ('SHAPE_area', 69938272.6723),
+                ('SHAPE_len', 53563.9125971)])
+  }</code></pre>
+</section>
+<section id="rasterio" class="slide level1 future" style="top: 0px; display: none;" data-index-h="20" hidden="" aria-hidden="true">
+<h1><a href="https://github.com/mapbox/rasterio">rasterio</a></h1>
+<ul>
+<li>TODO: FINISH</li>
+<li><code>rio</code> command line tool for quick access and use in pipelines</li>
+</ul>
+</section>
+<section id="pyproj" class="slide level1 future" style="top: 0px; display: none;" data-index-h="21" hidden="" aria-hidden="true">
+<h1><a href="http://jswhit.github.io/pyproj/">pyproj</a></h1>
+<ul>
+<li>Projects points from one CRS to another CRS</li>
+<li>Combine with Shapely to reproject geometry objects</li>
+<li>Uses Proj.4 under the hood</li>
+</ul>
+<pre><code>import math
+import pyproj
+
+proj = pyproj.Proj(init='epsg:26986')
+x0, y0 = proj(-71.0838, 42.3627)  # CIC coordinates
+x1, y1 = proj(-71.1057, 42.3670)  # Cambridge City Hall coordinates
+
+# Euclidean distance in meters
+math.sqrt((x1 - x0) ** 2 + (y1 - y0) ** 2)
+   1866.132 
+</code></pre>
+</section>
+<section id="pyproj-1" class="slide level1 future" style="top: 0px; display: none;" data-index-h="22" hidden="" aria-hidden="true">
+<h1><a href="http://jswhit.github.io/pyproj/">pyproj</a></h1>
+<p>Project Shapely geometry objects</p>
+<pre><code>from functools import partial
+import pyproj
+from shapely.geometry import Polygon
+from shapely.ops import transform
+
+project = partial(
+    pyproj.transform,
+    pyproj.Proj(init='epsg:4326'),
+    pyproj.Proj(init='epsg:26986'))
+
+# Outline of CIC building
+p = Polygon([[-71.08372, 42.36313], [-71.08296, 42.36293], [-71.08303, 42.36239], [-71.08371, 42.36253], [-71.0840, 42.36266], [-71.08372, 42.36313]])
+
+p2 = transform(project, p)
+p2.area  # Area in square meters
+    4591.96
+
+</code></pre>
+</section>
+<section id="rtree" class="slide level1 future" style="top: 0px; display: none;" data-index-h="23" hidden="" aria-hidden="true">
+<h1><a href="https://pypi.python.org/pypi/Rtree/">rtree</a></h1>
+<ul>
+<li>Create and query spatial indexes, R*Tree</li>
+<li>Uses libspatialindex under the hood</li>
+</ul>
+<pre><code>from rtree import index
+# Create a list of neighborhood objects that have attributes:
+#   .name : string
+#   .polygon : Shapely Polygon object
+neighborhoods = read_neighborhoods(filename)
+
+# Create and populate the index
+idx = index.Index()
+for i, n in enumerate(neightborhoods):
+    idx.insert(i, n.polygon.bounds)
+
+# Query for polygons whose bounds overlap a point 
+x, y = -71.097389, 42.346599  # Fenway Park coordinates
+list(idx.intersection((x, y, x, y)))
+   [16]
+neighborhoods[16].name
+    'Fenway'
+</code></pre>
+</section>
+<section id="even-more-geospatial" class="slide level1 future" style="top: 0px; display: none;" data-index-h="24" hidden="" aria-hidden="true">
+<h1>Even More Geospatial</h1>
+<ul>
+<li><a href="https://github.com/SpatialPython/spatial_python/blob/master/packages.md">List of spatial packages</a></li>
+<li><a href="http://geopandas.org/">geopandas</a>: spatial extensions to pandas</li>
+<li><a href="https://docs.djangoproject.com/en/dev/ref/contrib/gis/">GeoDjango</a>: Spatial extensions to the Django ORM.</li>
+<li><a href="https://github.com/djangonauts/django-rest-framework-gis">Django-Rest-Framework-GIS</a>: Spatial extensions to the <a href="http://www.django-rest-framework.org/">Django-Rest-Framework</a></li>
+<li><a href="http://geoalchemy-2.readthedocs.io/en/0.3/">GeoAlchemy</a>: Spatial extensions to the <a href="http://www.sqlalchemy.org/">SQLAlchemy ORM</a>.</li>
+</ul>
+</section>
+<section id="examples-and-exercises" class="slide level1 future" style="top: 0px; display: none;" data-index-h="25" hidden="" aria-hidden="true">
+<h1>Examples and Exercises</h1>
+</section>
+<section id="virtual-environments" class="slide level1 future" style="top: 0px; display: none;" data-index-h="26" hidden="" aria-hidden="true">
+<h1>Virtual Environments</h1>
+<ul>
+<li>Separate environments for different Python projects</li>
+<li>Allows multiple versions of libraries to be installed without interfering with each other</li>
+<li>Easier testing of installation and deploy scripts</li>
+<li>Two tools to create/manage virtual environments: <a href="https://virtualenv.pypa.io/en/stable/">virtualenv</a> and <a href="http://conda.pydata.org/docs/intro.html">conda</a></li>
+<li><p>Conda is newer and generally makes installing native dependencies (like GDAL, GEOS) easier than virtualenv.</p></li>
+<li><p>Tip: Use a new environment for every project. Do not install libraries into your global python installation (i.e., no <code>sudo pip install ...</code>)</p></li>
+</ul>
+</section>
+<section id="virtualenv" class="slide level1 future" style="top: 0px; display: none;" data-index-h="27" hidden="" aria-hidden="true">
+<h1><a href="https://virtualenv.pypa.io/en/stable/">virtualenv</a></h1>
+<pre><code>virtualenv ~/venv
+source ~/venv/bin/activate
+pip install shapely fiona</code></pre>
+</section>
+<section id="conda" class="slide level1 future" style="top: 0px; display: none;" data-index-h="28" hidden="" aria-hidden="true">
+<h1><a href="http://conda.pydata.org/docs/intro.html">conda</a></h1>
+<pre><code>conda create -n maptime -c conda-forge shapely fiona
+source activate maptime
+conda install ipython
+</code></pre>
+</section>
+<section id="get-started" class="slide level1 future" style="top: 0px; display: none;" data-index-h="29" hidden="" aria-hidden="true">
+<h1>Get Started</h1>
+<ul>
+<li>Download <a href="http://conda.pydata.org/miniconda.html">miniconda</a></li>
+<li>Download the <a href="https://www.dropbox.com/s/r8f18dnfryvsxiu/maptime-python.zip?dl=0">data package</a></li>
+<li>Open a terminal app</li>
+</ul>
+<pre><code>$ conda create -n maptime -c conda-forge shapely fiona
+$ source activate maptime
+$ conda install ipython
+
+$ cd ~/Downloads
+$ unzip maptime-python.zip
+$ cd maptime-python/code
+$ ipython
+</code></pre>
+</section>
+<section id="shapes" class="slide level1 future" style="top: 0px; display: none;" data-index-h="30" hidden="" aria-hidden="true">
+<h1>Shapes</h1>
+<figure>
+<img src="./Geospatial Processing with Python_files/maptime-polygons.bmp">
+</figure>
+<pre><code>$ ipython
+
+In [1]: %run shapes.py
+</code></pre>
+</section>
+<section id="shapes.py" class="slide level1 future" style="top: 74px; display: none;" data-index-h="31" hidden="" aria-hidden="true">
+<h1>shapes.py</h1>
+<pre><code>from shapely.geometry import Point, LineString, Polygon
+
+# Create a Point with x, y coordinates
+point1 = Point(1.5, 0.5)
+point2 = Point(2.5, 2.5)
+
+# Create a LineString with a list of (x, y) tuples
+line1 = LineString([(0.5, 1.5), (3.5, 1.5)])
+
+poly1 = Polygon([(1.0, 0.0), (3.0, 0.0), (2.0, 2.0)])
+poly2 = Polygon([(2.0, 0.5), (3.5, 0.5), (3.5, 1.0), (2.0, 1.0)])
+
+# Polygons can have holes. Specify them as a list of list of (x, y) tuples
+poly_w_hole = Polygon([(0.0, 0.0), (5.0, 0.0), (5.0, 5.0), (0.0, 5.0)],
+                      [[(1.0, 1.0), (2.0, 1.0), (2.0, 2.0), (1.0, 2.0)],
+                       [(3.0, 3.0), (4.0, 3.0), (4.0, 4.0), (3.0, 4.0)]])</code></pre>
+</section>
+<section id="ratmap-no-map" class="slide level1 future" style="top: 83.5px; display: none;" data-index-h="32" hidden="" aria-hidden="true">
+<h1>#ratmap (no map)</h1>
+<pre><code>%run code/ratmap.py
+
+neighborhoods = read_neighborhoods('data/Boston_Neighborhoods.shp')
+rodents = read_rodents('data/rodents.geojson')
+assign_rodent_counts(neighborhoods, rodents)
+
+# Sort the neighborhoods by number of rodent reports
+neighborhoods.sort(key=lambda x: x.n_rodents)
+for n in neighborhoods:
+    print('%s: %s' % (n.name, n.n_rodents))
+
+# Sort by rodent reports normalized by area
+neighborhoods.sort(key=lambda x: x.n_rodents / x.area)
+for n in neighborhoods:
+    print('%s: %s' % (n.name, n.n_rodents))
+</code></pre>
+</section>
+<section id="thats-all" class="slide level1 future" style="top: 120px; display: none;" hidden="" aria-hidden="true" data-index-h="33">
+<h1>That's All!</h1>
+<ul>
+<li>Slides, code, and data can be found at <a href="https://github.com/jwass/maptime-boston-python" class="uri">https://github.com/jwass/maptime-boston-python</a></li>
+<li><p>Feel free to follow up at the <a href="http://www.meetup.com/Maptime-Boston/events/231732596/">meetup page</a>.</p></li>
+<li><p>Thanks to Michelle Fullwood, Sean Gillies, and Shaun Walbridge for early comments and feedback.</p></li>
+</ul>
+</section>
+    </div>
+  <div class="backgrounds"><div class="slide-background past" data-loaded="true" style="display: none;"></div><div class="slide-background slide level1 stack past" data-loaded="true" style="display: none;"><div class="slide-background present" data-loaded="true" style="display: none;"></div></div><div class="slide-background slide level1 past" data-loaded="true" style="display: block;"></div><div class="slide-background slide level1 past" style="display: block;" data-loaded="true"></div><div class="slide-background slide level1 present" style="display: block;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: block;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: block;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" style="display: none;" data-loaded="true"></div><div class="slide-background slide level1 future" data-loaded="true" style="display: none;"></div><div class="slide-background slide level1 future" data-loaded="true" style="display: none;"></div><div class="slide-background slide level1 future" data-loaded="true" style="display: none;"></div></div><div class="progress" style="display: block;"><span style="width: 232.727px;"></span></div><aside class="controls" style="display: block;"><div class="navigate-left enabled"></div><div class="navigate-right enabled"></div><div class="navigate-up"></div><div class="navigate-down"></div></aside><div class="slide-number"></div><div class="pause-overlay"></div><div id="aria-status-div" aria-live="polite" aria-atomic="true" style="position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px 1px 1px 1px);">
+Scientific Computing
+
+numpy: vectorized array/matrix data structures
+scipy: linear algebra, optimization, and much more
+pandas: data analysis, extraction, cleaning
+scikit-image: image processing
+scikit-learn: machine learning
+
+</div></div>
+
+  <script src="./Geospatial Processing with Python_files/head.min.js.download"></script>
+  <script src="./Geospatial Processing with Python_files/reveal.js.download"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script><script type="text/javascript" src="./Geospatial Processing with Python_files/zoom.js.download"></script><script type="text/javascript" src="./Geospatial Processing with Python_files/notes.js.download"></script>
+    
+
+</body></html>
