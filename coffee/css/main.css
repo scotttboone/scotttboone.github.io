@@ -58,22 +58,25 @@ textarea {
 
 div {
 	border-color: white;
-	background-color: gray;
+	background-color: white;
 	font-family: Open Sans Semibold, sans-serif;
 }
 .container {
 	display: flex;
-	height: 600px;
+	height: 95vh;
+	overflow: visible;
 }
 .listbox{
-	width: 300px;
-	height: 100%
+	width: 160;
+	height: 100%;
+	background: rgba(0,0,0,0);
 }
 .listitem{
 	width: 90%;
-	margin: 10px;
+	margin: 5px;
 	padding-left: .5em;
-	background-color: lightgrey;
+	background-color: white;
+	opacity: 0.8;
 }
 .mapContainer {
 	flex-grow: 1;
