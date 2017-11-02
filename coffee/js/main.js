@@ -1,15 +1,16 @@
 window.onload = function() {
-	// load map
-	loadMapBox();
 	
 	// load dataset
 	var shops = JSON.parse(shopsData);
 	
+	// load map
+	loadMapBox(shops);
+		
 	// put dataset into array so we can sort, filter, etc
 	var shopArray = []
 	
-	for (i = 0; i < shops[0].features.length; i++) {
-		shopArray.push(shops[0].features[i])
+	for (i = 0; i < shops.data.features.length; i++) {
+		shopArray.push(shops.data.features[i])
 	}
 	
 	// sort our array; will filter later
@@ -59,35 +60,36 @@ function writeListDiv(shopElement) {
 
 }
 
-function loadMapBox() {
+function loadMapBox(shops) {
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2NvdHR0Ym9vbmUiLCJhIjoiY2lsdjB3NHM4MDFocnZka3NvZ3QydDQydyJ9.Wy_MJGjGTCbcg4iNm7ffJg';
-var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v9',
-    center: [-88.13734351262877, 35.137451890638886],
-    zoom: 4
-});
+	var map = new mapboxgl.Map({
+		container: 'mapbox',
+		style: 'mapbox://styles/mapbox/streets-v9',
+		center: [-97.721090, 30.268506],
+		zoom: 15
+	});
+	
+	var popup = new mapboxgl.Popup({
+    closeButton: false
+	});
 
-map.on('load', function () {
-
-    map.addLayer({
-        'id': 'urban-areas-fill',
-        'type': 'fill',
-        'source': {
-            'type': 'geojson',
-            'data': 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_urban_areas.geojson'
-        },
-        'layout': {},
-        'paint': {
-            'fill-color': '#f08',
-            'fill-opacity': 0.4
-        }
-    // This is the important part of this example: the addLayer
-    // method takes 2 arguments: the layer as an object, and a string
-    // representing another layer's name. if the other layer
-    // exists in the stylesheet already, the new layer will be positioned
-    // right before that layer in the stack, making it possible to put
-    // 'overlays' anywhere in the layer stack.
-    }, 'water');
-});
+	map.on('load', function () {
+		loadMapData(map, shops);
+	});
 }
+
+function loadMapData(map, shops) {
+	//alert(JSON.stringify(shops));
+	
+	try{map.removeSource('path');}catch(err){}
+	map.addSource('path', shops);
+	map.addLayer({
+		"id": "shops",
+		"type": "circle",
+		"source": 'path'
+	});
+	
+	
+}
+
+
