@@ -59,6 +59,7 @@ textarea {
 div {
 	border-color: white;
 	background-color: gray;
+	font-family: Open Sans Semibold, sans-serif;
 }
 .container {
 	display: flex;
@@ -71,6 +72,7 @@ div {
 .listitem{
 	width: 90%;
 	margin: 10px;
+	padding-left: .5em;
 	background-color: lightgrey;
 }
 .mapContainer {
