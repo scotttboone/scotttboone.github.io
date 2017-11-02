@@ -85,8 +85,17 @@ function loadMapData(map, shops) {
 	map.addSource('path', shops);
 	map.addLayer({
 		"id": "shops",
-		"type": "circle",
-		"source": 'path'
+		"type": "symbol",
+		"source": 'path',
+		"layout": {
+			"icon-image": "cafe-15",
+			"text-field": "{name}",
+			"text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],"text-offset": [0, 0.6],
+            "text-anchor": "top"
+		},
+		"paint": {
+			"icon-color": "#999999",
+		}
 	});
 	
 	
