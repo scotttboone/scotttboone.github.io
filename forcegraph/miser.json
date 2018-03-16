@@ -1,0 +1,17 @@
+{
+  "nodes": [
+    {"id": "Gap 1", "group": 1},
+	{"id": "Gap 2", "group": 1},
+	{"id": "Gap 3", "group": 2},
+	{"id": "Gap 4", "group": 2}
+    
+  ],
+  "links": [
+    {"source": "Gap 1", "target": "Gap 2", "value": 1},
+	{"source": "Gap 1", "target": "Gap 3", "value": 1},
+	{"source": "Gap 1", "target": "Gap 4", "value": 1},
+	{"source": "Gap 2", "target": "Gap 3", "value": 1},
+	{"source": "Gap 2", "target": "Gap 4", "value": 1},
+	{"source": "Gap 3", "target": "Gap 4", "value": 1}
+  ]
+}
