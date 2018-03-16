@@ -39,10 +39,9 @@ d3.json("miser.json", function(error, graph) {
 
   var dropBox = document.getElementById("picker");
   
-  console.log(graph.nodes[0]);
   
-  for (var idx in Object.getOwnPropertyNames(graph.nodes[0])) {
-	console.log(idx);};
+  for (var idx in Object.getOwnPropertyNames(graph.nodes[0].stats)) {
+	dropBox.append(idx);};
   
   var link = svg.append("g")
       .attr("class", "links")
