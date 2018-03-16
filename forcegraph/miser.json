@@ -7,7 +7,6 @@
     
   ],
   "links": [
-    {"source": "Gap 1", "target": "Gap 2", "value": 4},
 	{"source": "Gap 1", "target": "Gap 3", "value": 10},
 	{"source": "Gap 1", "target": "Gap 4", "value": 7},
 	{"source": "Gap 2", "target": "Gap 3", "value": 7},
