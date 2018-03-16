@@ -13,14 +13,15 @@
 }
 
 </style>
+<select id="picker"></select>
 <svg width="960" height="600"></svg>
-<select id="inds">
-		<option value="pop" selected="selected">apples</option>
-		<option value="popdens">pears</option>
-		<option value="carstopeople">tomatoes</option>
-</select>
+
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
+
+
+
+
 
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
@@ -36,6 +37,11 @@ var simulation = d3.forceSimulation()
 d3.json("miser.json", function(error, graph) {
   if (error) throw error;
 
+  var dropBox = document.getElementById("picker");
+  
+  for (var idx in graph.nodes) {
+	console.log(idx)};
+  
   var link = svg.append("g")
       .attr("class", "links")
     .selectAll("line")
