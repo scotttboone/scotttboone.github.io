@@ -27,6 +27,7 @@
     
   ],
   "links": [
+<<<<<<< HEAD
 	{"source": "Gap 2", "target": "Gap 1", "value": 4},
 	{"source": "Gap 3", "target": "Gap 1", "value": 10},
 	{"source": "Gap 3", "target": "Gap 2", "value": 7},
@@ -174,5 +175,12 @@
 	{"source": "MIZ 6", "target": "MIZ 2", "value": 5},
 	{"source": "MIZ 6", "target": "MIZ 3", "value": 4},
 	{"source": "MIZ 6", "target": "MIZ 5", "value": 4}
+=======
+	{"source": "Gap 1", "target": "Gap 3", "value": 10},
+	{"source": "Gap 1", "target": "Gap 4", "value": 7},
+	{"source": "Gap 2", "target": "Gap 3", "value": 7},
+	{"source": "Gap 2", "target": "Gap 4", "value": 9},
+	{"source": "Gap 3", "target": "Gap 4", "value": 6}
+>>>>>>> origin/master
   ]
 }
