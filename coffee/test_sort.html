@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <style type="text/css">
+      .resort {
+        padding: 10px;
+        border: 1px solid black;
+        background: #ccc;
+        cursor: pointer;
+        width: 100px;
+        margin-bottom: 20px;
+      }
+      .data {
+        position: fixed;
+        border: 1px solid black;
+        width: 100px;
+      }
+    </style>
+
+
+  </head>
+
+  <body>
+
+    <div class="resort">Re-sort</div>
+
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript">
+;(function() {
+  var data = d3.range(0, 11),
+      body = d3.select("body");
+
+  function reSort() {
+    body.selectAll("div.data").sort(function(a, b) {
+      return d3.ascending(Math.random(), Math.random());
+    })
+    .transition().duration(500)
+    .style({
+      top: function(d, i) {
+        return 60 + ((i*30)) + "px";
+      }
+    })
+  }
+
+  d3.select(".resort").on("click", reSort);
+
+  div = body.selectAll("div.data")
+                .data(data)
+              .enter().append("div")
+                .attr({
+                  "class": "data"
+                })
+                .style({
+                  top: function(d, i) {
+                    return 60 + ((i*30)) + "px";
+                  }
+                })
+                .html(function(d, i) { return d; });
+
+
+}());
+    </script>
+
+  </body>
+</html>

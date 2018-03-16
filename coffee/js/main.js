@@ -19,7 +19,9 @@ window.onload = function() {
 		b.properties.rating.overall
 	});
 	
-	shopArray.sort();
+	//shopArray.sort();
+
+
 		
 	for (i = 0; i < shopArray.length; i++) {
 		writeListDiv(shopArray[i])
@@ -27,6 +29,16 @@ window.onload = function() {
 	
 
 }
+
+function getMapBounds() {
+	var mybounds = '('+
+    map.getBounds().getSouth() +','+
+    map.getBounds().getWest() +','+
+    map.getBounds().getNorth() +','+
+    map.getBounds().getEast() +')'
+    
+    var myCenter = map.getCenter()
+}	
 
 function getMapBounds() {
 	var mybounds = '('+
@@ -46,18 +58,40 @@ function writeListDiv(shopElement) {
 	//alert(shopElement.properties.name)
 	var newDiv = document.createElement('div');
 	newDiv.className = 'listitem';
+
+	var newNameDiv = document.createElement('div');
+	newNameDiv.className = 'itemname';
+
+	var newNameContent = document.createTextNode(shopElement.properties.name);
+	newNameDiv.appendChild(newNameContent);
+
+	var newRatingDiv = document.createElement('div');
+	newRatingDiv.className = 'itemrating';
+	newRatingDiv.style.backgroundColor = returnRatingColor(shopElement.properties.rating.overall);
 	
-	var newContent = document.createTextNode(
-		shopElement.properties.name + 
-		": " + 
-		shopElement.properties.rating.overall);
-	newDiv.appendChild(newContent);
-	
-	
+	var newRatingContent = document.createTextNode(shopElement.properties.rating.overall);
+	newRatingDiv.appendChild(newRatingContent);	
+		
 	var myContainer = document.getElementById('listContainer');
 	
 	myContainer.appendChild(newDiv);
+	newDiv.appendChild(newNameDiv);
+	newDiv.appendChild(newRatingDiv);
+	
+}
 
+function returnRatingColor(value) {
+	var valueFloat = parseFloat(value);
+	
+	if (valueFloat < 5 ) {
+		return "red";
+	} else if (valueFloat < 8 ) {
+		return "yellow";
+	} else if (valueFloat <= 10 ) {
+		return "green";
+	} else {
+		return "white";
+	}
 }
 
 function loadMapBox(shops) {

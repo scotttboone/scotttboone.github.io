@@ -57,30 +57,47 @@ textarea {
    ========================================================================== */
 
 div {
-	border-color: white;
-	background-color: white;
+	
+	
 	font-family: Open Sans Semibold, sans-serif;
 }
 .container {
 	display: flex;
 	height: 95vh;
-	overflow: visible;
 }
 .listbox{
-	width: 160;
-	height: 100%;
-	background: rgba(0,0,0,0);
+    position: absolute;
+    top: 10;
+    width: 200;
+	z-index: 1;
+
 }
 .listitem{
-	width: 90%;
+	width: 100%;
 	margin: 5px;
-	padding-left: .5em;
-	background-color: white;
-	opacity: 0.8;
+    height: 1.75em;
+
+}
+.itemname{
+    background: rgba(255,255,255,0.8);
+    width: calc(100% - 2em);
+    float: left;
+    padding-left: .5em;
+}
+.itemrating{
+    background-color: white;
+    float: right;
+    width: 1.5em;
+    
+    text-align: center;
 }
 .mapContainer {
+    z-index: 0;
 	flex-grow: 1;
-	height: 100%
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 
