@@ -17,19 +17,16 @@
   <script type = "text/javascript" src="./d3.v4.min.js"></script>
 </head>
 <body>
-<svg width="960" height="400"></svg>
+<svg id = "mainplot" width="600" height="400"></svg></br>
+<svg id = "legend" width ="600" height="100"><svg>
 
 
 
 <script>
 
-var svg = d3.select("svg"),
+var svg = d3.select('#mainplot'),
     width = +svg.attr("width"),
     height = +svg.attr("height");
-
-//var select = d3.select()
-
-
 
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
@@ -53,10 +50,22 @@ d3.json("miser.json", function(error, graph) {
       .text(function (d) { return d; });
 
   function onchange() {
-    var color = d3.scaleSequential(d3.interpolateViridis);
-    var selectVal = d3.select('select').node().value
+       
+    var selectVal = d3.select('select').node().value;
+
+    var varRange = d3.extent(graph.nodes.map(function(d){
+      return d.stats[selectVal];
+    }));
+
+    var color = d3.scaleSequential(d3.interpolateViridis)
+      .domain(varRange);
+
     d3.selectAll('circle')
       .attr("fill", function(d) { return color(d.stats[selectVal]); });
+  };
+
+  function makeLegend() {
+
   };
 
 	
@@ -72,7 +81,8 @@ d3.json("miser.json", function(error, graph) {
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
-      .attr("r", function(d) { return Math.sqrt((d.stats['Population'] + .1) * 150 ) ; })
+      //.attr("r", function(d) { return Math.sqrt((d.stats['Population'] + .1) * 150 ) ; })
+      .attr("r", function(d) { return Math.sqrt((d.stats['Population'] ) /100 ) ; })
       .attr("fill", '#888888')
       .call(d3.drag()
           .on("start", dragstarted)
