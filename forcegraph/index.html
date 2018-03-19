@@ -72,7 +72,7 @@ d3.json("miser.json", function(error, graph) {
     .selectAll("circle")
     .data(graph.nodes)
     .enter().append("circle")
-      .attr("r", function(d) { return Math.sqrt((d.stats.pop + .1) * 150 ) ; })
+      .attr("r", function(d) { return Math.sqrt((d.stats['Population'] + .1) * 150 ) ; })
       .attr("fill", '#888888')
       .call(d3.drag()
           .on("start", dragstarted)
