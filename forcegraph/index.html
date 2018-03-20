@@ -1,134 +1,180 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
-
-.links line {
-  stroke: #999;
-  stroke-opacity: 0.6;
-}
-
-.nodes circle {
-  stroke: #fff;
-  stroke-width: 1.5px;
-}
-
-</style>
+<link rel="stylesheet" href="./forcegraph.css">
 <head>
-  <script type = "text/javascript" src="./d3.v4.min.js"></script>
+
+    <script type = "text/javascript" src="./d3.v4.min.js"></script>
+    <script type = "text/javascript" src="./d3-legend.min.js"></script>
+
 </head>
 <body>
-<svg id = "mainplot" width="600" height="400"></svg></br>
-<svg id = "legend" width ="600" height="100"><svg>
-
-
+  <div id = "maincontainer" class = "container">
+    <div id = "legend-container" >
+      <svg id = "legendplot" height="300"></svg> 
+      
+    </div>
+    <div id = "plot-container">
+      <svg id = "mainplot" ></svg>
+    </div>
+ </div>
 
 <script>
 
-var svg = d3.select('#mainplot'),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
+  var plotDiv       = document.getElementById("plot-container")
 
-var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(width / 2, height / 2));
+  var plotarea = d3.select("#mainplot")
+    .attr("width", plotDiv.clientWidth)
+    .attr("height", plotDiv.clientHeight)
 
-d3.json("miser.json", function(error, graph) {
-  if (error) throw error;
-
-  var statKeys = Object.keys(graph.nodes[0]['stats'])
-
-  var dropBox = d3.select('body')
-    .append('select')
-      .attr('class', 'select')
-      .on('change', onchange)
+  var legendarea    = d3.select('#legendplot');
   
-  var options = dropBox
-    .selectAll('option')
-    .data(statKeys).enter()
-    .append('option')
-      .text(function (d) { return d; });
+  var simulation = d3.forceSimulation()
+      .force("link", d3.forceLink().id(function(d) { return d.id; }))
+      .force("charge", d3.forceManyBody())
+      .force("center", d3.forceCenter(+plotarea.attr("width") / 2, +plotarea.attr("height") / 2));
+  console.log()
+  
+  //var formatPercent = d3.format(".0%"),
+  //    formatNumber  = d3.format(".0f");
+  
+  d3.json("miser.json", function(error, graph) {
+    if (error) throw error;
+  
+    var statKeys = Object.keys(graph.nodes[0]['stats'])
+  
+    var dropBox = d3.select('#legend-container')
+      .insert('select', '#legendplot')
+        .attr('class', 'select')
+        .on('change', onchange)
+    
+    var options = dropBox
+      .selectAll('option')
+      .data(statKeys).enter()
+      .append('option')
+        .text(function (d) { return d; });
+  
+    function onchange() {
+         
+      var selectVal = d3.select('select').node().value;
+  
+      var varRange = d3.extent(graph.nodes.map(function(d){
+        return d.stats[selectVal];
+      }));
+  
+      var color = d3.scaleSequential(d3.interpolateViridis)
+        .domain(varRange);
+  
+      makeLegend(selectVal, varRange, color);
+  
+      d3.selectAll('circle')
+        .attr("fill", function(d) { return color(d.stats[selectVal]); });
+    };
+  
+    function makeLegend(title, varRange, color) {
+      // http://d3-legend.susielu.com/
+      legendarea.selectAll('*').remove();
+  
+      if (title.includes("Percent")) {
+        var legendFormat = ',.1%'
+      } else if (varRange[1] < 1000) {
+        var legendFormat = '.1f'
+      } else {
+        var legendFormat = ',.0f'
+      }
+  
+      var sequentialScale = d3.scaleSequential(d3.interpolateViridis)
+        .domain(varRange);
+  
+      legendarea.append("g")
+        .attr("class", "legendSequential")
+        .attr("transform", "translate(20,20)")
+  
+      var legendSequential = d3.legendColor()
+        .shapeWidth(30)
+        .cells(10)
+        .orient("vertical")
+        .scale(sequentialScale) 
+        .labelFormat(d3.format(legendFormat))
+  
+  
+  
+      legendarea.select(".legendSequential")
+        .call(legendSequential)
+  
+  
+    };
+  	
+    var link = plotarea.append("g")
+        .attr("class", "links")
+      .selectAll("line")
+      .data(graph.links)
+      .enter().append("line")
+        .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+  
+    var node = plotarea.append("g")
+        .attr("class", "nodes")
+      .selectAll("circle")
+      .data(graph.nodes)
+      .enter().append("circle")
+        //.attr("r", function(d) { return Math.sqrt((d.stats['Population'] + .1) * 150 ) ; })
+        .attr("r", function(d) { return Math.sqrt((d.stats['Population'] ) /100 ) ; })
+        .attr("fill", '#888888')
+        .call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended));
+  
+  
+    node.append("title")
+        .text(function(d) { return d.id; });
+  
+    simulation
+        .nodes(graph.nodes)
+        .on("tick", ticked);
+  
+    simulation.force("link")
+        .links(graph.links);
+  
+    function ticked() {
+      //console.log(plotDiv.clientWidth)
+   
+  
+      link
+          .attr("x1", function(d) { return d.source.x; })
+          .attr("y1", function(d) { return d.source.y; })
+          .attr("x2", function(d) { return d.target.x; })
+          .attr("y2", function(d) { return d.target.y; });
+  
+      node
+          //.attr("cx", function(d) { return d.x; })
+          //.attr("cy", function(d) { return d.y; });
+          .attr("cx", function(d) { return d.x = Math.max(10, Math.min(plotDiv.clientWidth - 20, d.x)); })
+          .attr("cy", function(d) { return d.y = Math.max(10, Math.min(plotDiv.clientHeight - 20, d.y)); })        
+  
+    }
+  });
 
-  function onchange() {
-       
-    var selectVal = d3.select('select').node().value;
-
-    var varRange = d3.extent(graph.nodes.map(function(d){
-      return d.stats[selectVal];
-    }));
-
-    var color = d3.scaleSequential(d3.interpolateViridis)
-      .domain(varRange);
-
-    d3.selectAll('circle')
-      .attr("fill", function(d) { return color(d.stats[selectVal]); });
-  };
-
-  function makeLegend() {
-
-  };
-
-	
-  var link = svg.append("g")
-      .attr("class", "links")
-    .selectAll("line")
-    .data(graph.links)
-    .enter().append("line")
-      .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
-
-  var node = svg.append("g")
-      .attr("class", "nodes")
-    .selectAll("circle")
-    .data(graph.nodes)
-    .enter().append("circle")
-      //.attr("r", function(d) { return Math.sqrt((d.stats['Population'] + .1) * 150 ) ; })
-      .attr("r", function(d) { return Math.sqrt((d.stats['Population'] ) /100 ) ; })
-      .attr("fill", '#888888')
-      .call(d3.drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended));
-
-
-  node.append("title")
-      .text(function(d) { return d.id; });
-
-  simulation
-      .nodes(graph.nodes)
-      .on("tick", ticked);
-
-  simulation.force("link")
-      .links(graph.links);
-
-  function ticked() {
-    link
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-    node
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
+  function dragstarted(d) {
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
   }
-});
+  
+  function dragged(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+  }
+  
+  function dragended(d) {
+    if (!d3.event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
 
-function dragstarted(d) {
-  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-  d.fx = d.x;
-  d.fy = d.y;
-}
 
-function dragged(d) {
-  d.fx = d3.event.x;
-  d.fy = d3.event.y;
-}
 
-function dragended(d) {
-  if (!d3.event.active) simulation.alphaTarget(0);
-  d.fx = null;
-  d.fy = null;
-}
+
+
 
 </script>
 </body>
