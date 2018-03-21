@@ -6,7 +6,7 @@ body {
 
 .links line {
   stroke: #999;
-  stroke-opacity: 0.6;
+  stroke-opacity: 0.1;
 }
 
 .nodes circle {
@@ -16,25 +16,23 @@ body {
 
 .container {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   height: 95vh;
 }
 
 #legend-container {
-  z-index: 1;
-  position: absolute;
-  top: 10;
-  height: 300;
-  width: 20%;
+  z-index: 0;
+  order: 1;
+  width: 200px;
 }
 
 #plot-container {
   z-index: 0;
-  flex-grow: 1;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 99%;
-  overflow: hidden;
+  order: 2;
+  flex: 1 1 auto;
 }
 
-
+.legendtext {
+  text-align: justify;
+}
