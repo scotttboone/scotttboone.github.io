@@ -11,7 +11,7 @@
   <div id = "maincontainer" class = "container">
     <div id = "legend-container" >
       <h2>Metageography</h2>
-      <p class = "legendtext">Clustering of geographic regions based on common attributes. The link between each geographic region receives 1 "point" of strength for each parameter in which the two regions are within one standard deviation of each other; likewise, one "point" is subtracted for each parameter in which the regions differ by more than two standard deviations.</p><p class = "legendtext"> A force-directed simulation then clusters the regions into groups sharing an abundance of similar (and a lack of divergent) characteristics. The elastic links "pull" similar regions together; unlinked regions repulse each other. Drag the points to see the "physical" relationships.</p>
+      <p class = "legendtext">Clustering of geographic regions based on common attributes. The link between each geographic region receives 1 "point" of strength for each parameter in which the two regions are within one standard deviation of each other; likewise, one "point" is subtracted for each parameter in which the regions differ by more than two standard deviations.</p><p class = "legendtext"> A force-directed simulation then clusters the regions into groups sharing an abundance of similar (and a lack of divergent) characteristics. The elastic links "pull" similar regions together; unlinked regions repulse each other. </p><p class = "legendtext">Drag the points to see the "physical" relationships. Pick a parameter below to see the individual characteristics.</p>
       <svg id = "legendplot" height="300"></svg> 
       
     </div>
@@ -119,7 +119,7 @@
       .data(graph.nodes)
       .enter().append("circle")
         //.attr("r", function(d) { return Math.sqrt((d.stats['Population'] + .1) * 150 ) ; })
-        .attr("r", function(d) { return Math.sqrt((d.stats['Population'] ) /100 ) ; })
+        .attr("r", function(d) { return Math.sqrt((d.stats['Population'] ) / 90 ) ; })
         .attr("fill", '#888888')
         .call(d3.drag()
             .on("start", dragstarted)
