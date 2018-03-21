@@ -11,7 +11,7 @@
   <div id = "maincontainer" class = "container">
     <div id = "legend-container" >
       <h2>Metageography</h2>
-      <p class = "legendtext">Clustering of geographic regions based on common attributes. The link between each geographic region receives 1 "point" of strength for each parameter in which the two regions are within one standard deviation of each other; likewise, one "point" is subtracted for each parameter in which the regions differ by more than two standard deviations.</p><p class = "legendtext"> A force-directed simulation then clusters the regions into groups sharing an abundance of similar (and a lack of divergent) characteristics. The elastic links "pull" similar regions together; unlinked regions repulse each other. </p><p class = "legendtext">Drag the points to see the "physical" relationships. Pick a parameter below to see the individual characteristics.</p>
+      <p class = "legendtext">To the right is an abstracted spatial clustering of geographic regions based on common attributes. The link between each pair of geographic regions receives one "point" of strength for each parameter in which the two regions are within one standard deviation of each other; likewise, one "point" is subtracted for each parameter in which the regions differ by more than two standard deviations.</p><p class = "legendtext"> A force-directed simulation then clusters the regions into groups sharing an abundance of similar (and a lack of divergent) characteristics. The elastic links "pull" similar regions together; unlinked regions repulse each other. </p><p class = "legendtext">Drag the points to see the "physical" relationships. Pick a parameter below to see the individual characteristics. (Size is permanantly linked to population). </p>
       <svg id = "legendplot" height="300"></svg> 
       
     </div>
@@ -93,7 +93,7 @@
   
       var legendSequential = d3.legendColor()
         .shapeWidth(30)
-        .cells(10)
+        .cells(5)
         .orient("vertical")
         .scale(sequentialScale) 
         .labelFormat(d3.format(legendFormat))
