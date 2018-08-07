@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/main2.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<!-- InstanceBeginEditable name="title" --><title>CREATE</title>
+<style type="text/css">
+<!--
+.container .leftnav p a {
+	font-size: 11px;
+}
+-->
+</style>
+<!-- InstanceEndEditable -->
+<SCRIPT LANGUAGE="JavaScript">
+<!-- Original:  CodeLifter.com (support@codelifter.com) -->
+<!-- Web Site:  http://www.codelifter.com -->
+
+<!-- This script and many more are available free online at -->
+<!-- The JavaScript Source!! http://javascript.internet.com -->
+
+<!-- Begin
+// Set slideShowSpeed (milliseconds)
+var slideShowSpeed = 5000;
+// Duration of crossfade (seconds)
+var crossFadeDuration = 3;
+// Specify the image files
+var Pic = new Array();
+// to add more images, just continue
+// the pattern, adding to the array below
+
+Pic[0] = 'images/slide1sm.png'
+Pic[1] = 'images/slide2sm.png'
+Pic[2] = 'images/slide3sm.png'
+Pic[3] = 'images/slide4sm.png'
+Pic[4] = 'images/slide5sm.png'
+Pic[5] = 'images/slide6sm.png'
+Pic[6] = 'images/slide7sm.png'
+Pic[7] = 'images/slide8sm.png'
+Pic[8] = 'images/slide9sm.png'
+
+// do not edit anything below this line
+var t;
+var j = 0;
+var p = Pic.length;
+var preLoad = new Array();
+for (i = 0; i < p; i++) {
+preLoad[i] = new Image();
+preLoad[i].src = Pic[i];
+}
+function runSlideShow() {
+if (document.all) {
+document.images.SlideShow.style.filter="blendTrans(duration=2)";
+document.images.SlideShow.style.filter="blendTrans(duration=crossFadeDuration)";
+document.images.SlideShow.filters.blendTrans.Apply();
+}
+document.images.SlideShow.src = preLoad[j].src;
+if (document.all) {
+document.images.SlideShow.filters.blendTrans.Play();
+}
+j = j + 1;
+if (j > (p - 1)) j = 0;
+t = setTimeout('runSlideShow()', slideShowSpeed);
+}
+//  End -->
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<script src="SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
+<script language=JavaScript> 
+
+function CheckIsIE() 
+{ 
+if (navigator.appName.toUpperCase() == 'MICROSOFT INTERNET EXPLORER') { return true;} 
+else { return false; } 
+} 
+
+
+function PrintThisPage() 
+{ 
+
+if (CheckIsIE() == true) 
+{ 
+document.frame.focus();
+document.frame.print(); 
+} 
+else 
+{ 
+window.frames['frame'].focus(); 
+window.frames['frame'].print(); 
+} 
+
+} 
+
+</script>
+<link href="SpryAssets/SpryMenuBarHorizontal.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+body {
+	background-color: #001F59;
+}
+-->
+</style>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31245595-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+</head>
+
+<body onLoad="runSlideShow()" style="margin-top:0px">
+<div class="container">
+<div class="header">
+<!-- <div id="VU" class="pic1"><img src="images/slide1sm.png" name="SlideShow" width="289" height="63" /></div> -->
+<div style="width:410px; height:70px; margin-top:72px"><a href="index.htm"><img border="0" src="images/hotspot.png" /></a></div>
+</div>
+<div class="nav"><ul id="MenuBar1" class="MenuBarHorizontal">
+  <li><a href="index.htm" target="_self" class="MenuBarItemSubmenu" style="text-align: center">Home</a>
+    <ul>
+      <li><a style="padding-left:3px" href="index.htm" target="_self">CREATE Home</a></li>
+      <li><a style="padding-left:3px" href="contact.htm" target="_self">Contact Us</a></li>
+      <li><a style="padding-left:3px" href="support.htm" target="_self">Support CREATE</a></li>
+      <li><a style="padding-left:3px" href="news.htm" target="_self">News</a></li>  
+      <li><a style="padding-left:3px" href="links.htm" target="_self">Related Links</a></li>   
+      <li><a style="padding-left:3px" href="partners.htm" target="_self">CREATE Partners</a></li>
+    </ul>
+  </li>
+  <li><a href="about.htm" class="MenuBarItemSubmenu" style="text-align: center">About CREATE</a>
+  <ul>
+     <li><a style="padding-left:3px" href="about.htm">About CREATE</a></li>
+     <li><a style="padding-left:3px" href="in_news.htm">In the News</a></li>
+     <li><a style="padding-left:3px" href="meetings.htm">Public Meetings</a></li>
+     <li><a style="padding-left:3px" href="newsletter.htm">Newsletters/<br />Announcements</a></li>
+     <li><a style="padding-left:3px" href="benefits.htm">CREATE Benefits</a></li>
+     <li><a style="padding-left:3px" href="employment.htm">Employment Opportunities</a></li>
+     <li><a style="padding-left:3px" href="grants.htm">CREATE Grant Applications</a></li>
+     <li><a style="padding-left:3px" href="feasibility.htm">Final Feasibility<br />Study</a></li>
+     <li><a style="padding-left:3px" href="photos.htm">Photos</a></li>
+     <li><a style="padding-left:3px" href="videos.htm">Videos</a></li>
+  </ul>
+  </li>   
+  <li><a href="projects.htm" class="MenuBarItemSubmenu" style="text-align: center">CREATE Projects</a>
+      <ul>
+           <li><a style="padding-left:3px" href="projects.htm">CREATE Projects</a>
+           <li><a style="padding-left:3px" href="maps.htm">CREATE Maps</a></li>
+           <li><a style="padding-left:3px" href="sites.htm">Project Web Sites</a></li>
+           <li><a style="padding-left:3px" href="status.htm">Project Status</a></li>           
+      </ul></li>
+  <li><a href="business.htm" class="MenuBarItemSubmenu" style="text-align: center">Doing Business</a>
+      <ul>
+      <li><a style="padding-left:3px" href="business.htm">Doing Business<br />with CREATE</a></li>
+      <li><a style="padding-left:3px" href="bid.htm">Bid Advertisements/RFPs</a></li>
+      <li><a style="padding-left:3px" href="bid_openings.htm">Bid Awards</a></li>
+      <li><a style="padding-left:3px" href="safety.htm">Safety Requirement<br />for Contractors</a></li>
+      <li><a style="padding-left:3px" href="consultant.htm">Consultant<br />Information</a></li>
+      <li><a style="padding-left:3px" href="participation.htm">CREATE Participation<br />in Supplier<br />Fairs/Events</a></li>
+      <li><a style="padding-left:3px" href="dbembewbe.htm">DBE/MBE/WBE</a></li>
+      </ul></li>
+  <li><a href="press.htm" class="MenuBarItemSubmenu" style="text-align: center">Press Room</a>
+     <ul>
+       <li><a style="padding-left:3px" href="press.htm">Media Contacts</a></li>
+       <li><a style="padding-left:3px" href="pressreleases.htm">Press Releases</a></li>
+     </ul>
+  </li>
+</ul>
+<script type="text/javascript">
+<!--
+var MenuBar1 = new Spry.Widget.MenuBar("MenuBar1", {imgDown:"../SpryAssets/SpryMenuBarDownHover.gif", imgRight:"../SpryAssets/SpryMenuBarRightHover.gif"});
+//-->
+</script>
+</div>
+<!-- <div class="leftnav">
+  <script type="text/javascript">
+function showPopup(url) {
+newwindow=window.open(url,'name','height=800px,width=662px,top=200,left=300,scrollbars=1');
+if (window.focus) {newwindow.focus()}
+}
+</script>
+  <h1>Quick Links</h1>
+  <p style="margin-bottom:10px;"><a href="in_news.htm" target="_self" style="color: #000; font-size: 12px;">CREATE in the News</a></p>
+
+  <p><a href="http://createprogram.org/videos/WGN_interview.mp3">CREATE Partners (Thompson/Sriver) discuss CREATE on WGN&rsquo;s &ldquo;Wintrust Business Lunch&rdquo;</a></p>
+  <p><a href="https://www.progressiverailroading.com/federal_legislation_regulation/news/USDOT-awards-132-million-grant-for-CREATE-projects--54826" target="_blank">USDOT awards $132 million grant for CREATE projects  </a></p>
+  <p><a href="https://www.railwayage.com/freight/illinois-awards-241m-to-freight-projects/" target="_blank">Illinois awards $241M to freight projects  </a>(GS-11 Funding from IDOT)  </p>
+  <p><a href="http://www.amtrak.com/chicagogateway" target="_blank">Amtrak Chicago Gateway Initiative Blue Ribbon Panel</a></p>
+  <p><strong>Resources</strong>    </p>
+  <p><a href="projects.htm">Project Fact Sheets, Photos, and Videos</a>    </p>
+  <p><a href="linked_files/status_map.pdf" target="_blank"><strong>CREATE Project Status Summary</strong></a></p>
+  <p><a href="business.htm" target="_blank">Doing Business with CREATE</a><br style="clear:both" />
+</p>
+</div> -->
+<div class="content"><!-- InstanceBeginEditable name="content" --><!-- <img src="images/content_top_home.jpg" width="662" height="40" border="0" usemap="#Map" style="margin-top:0px" /> -->
+<!--     <map name="Map" id="Map">
+      <area shape="rect" coords="626,3,659,37" href="http://www.facebook.com/pages/Chicago-Region-Environmental-and-Transportation-Efficiency-Program-CREATE/197050350318062" target="_blank" />
+    </map> -->
+	
+<div class="contentnavbox" style="background-color: #1abc9c">
+	<a href="http://createprogram.org/about.htm"><p class="navboxheader">About CREATE</p></a>
+	<p class="navboxtext">Learn about the program goals, partners, and projects.</p>
+	</div>
+	
+<div class="contentnavboxspacer">&nbsp;</div>
+
+<div class="contentnavbox" style="background-color: #2ecc71">
+	<a href="http://createprogram.org/in_news.htm"><p class="navboxheader">News</p></a>
+	<p class="navboxtext">Get briefed on the latest media coverage of the program and its projects.</p>
+	</div>
+
+<div class="contentnavboxspacer">&nbsp;</div>	
+	
+<div class="contentnavbox" style="background-color: #3498db">
+	<a href="http://createprogram.org/meetings.htm"><p class="navboxheader">Events</p></a>
+	<p class="navboxtext">Get updated on public events and meetings.</p>
+	</div>
+
+<div class="contentnavboxspacer">&nbsp;</div>	
+	
+<div class="contentnavbox" style="background-color: #9b59b6">
+	<a href="http://createprogram.org/business.htm"><p class="navboxheader">Resources</p></a>
+	<p class="navboxtext">Find information such as project information, project status, and doing business with CREATE.</p>
+	</div>	
+    
+<p class="header3text">INFRA  grant announced for the CREATE Program!</p>
+<p class="bodytext">June 5, 2018 – <strong>It was  announced today that the Chicago Region Environmental and Transportation  Efficiency (CREATE) Program will receive $132 million in federal funding for  the 75th Street Corridor Improvement Project (CIP).</strong> This investment  from the U.S. Department of Transportation (USDOT) will help separate several  freight and passenger rail lines in the Englewood, Auburn Gresham and West Chatham  neighborhoods that currently intersect and create significant delays, train  idling and congestion. This project is an important step in updating the  region&rsquo;s rail infrastructure and will help increase reliability and efficiency  nationally. <a href="INFRA/GrantLinks/75CIP-B9_INFRA2017_FINAL.PDF">Click here to read the grant application.</a> A short <a href="https://vimeo.com/240175676/03274ef181" target="_blank">video</a> explains how the 75th St CIP will improve freight and passenger train movements in Chicago.</p>
+</div>
+<div class="footer">
+  <p class="footer_text">DRAFT: NOT FOR DISTRIBUTION &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&copy; CREATE 2018&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;<a style="color:#111" href="mailto:info@createprogram.org">info@createprogram.org</a></p></div>
+<div style="clear:both"></div>
+</div>
+</body>
+<!-- InstanceEnd --></html>
