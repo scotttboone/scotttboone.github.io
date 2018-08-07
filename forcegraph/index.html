@@ -11,7 +11,7 @@
   <div id = "maincontainer" class = "container">
     <div id = "legend-container" >
       <h2>Metageography</h2>
-      <p class = "legendtext">To the right is an abstracted spatial clustering of geographic regions based on common attributes. The link between each pair of geographic regions receives one "point" of strength for each parameter in which the two regions are within one standard deviation of each other; likewise, one "point" is subtracted for each parameter in which the regions differ by more than two standard deviations.</p><p class = "legendtext"> A force-directed simulation then clusters the regions into groups sharing an abundance of similar (and a lack of divergent) characteristics. The elastic links "pull" similar regions together; unlinked regions repulse each other. </p><p class = "legendtext">Drag the points to see the "physical" relationships. Pick a parameter below to see the individual characteristics. (Size is permanantly linked to population). </p>
+      <p class = "legendtext">To the right is an abstracted spatial clustering of geographic regions based on common attributes. The link between each pair of geographic regions is made stronger for each parameter in which the two regions are within one standard deviation of each other; likewise, the link is made weaker for each parameter in which the regions differ by more than two standard deviations.</p><p class = "legendtext"> A force-directed simulation then clusters the regions into groups sharing an abundance of similar (and a lack of divergent) characteristics. The elastic links "pull" similar regions together; unlinked regions repulse each other. </p><p class = "legendtext">Drag the points to see the "physical" relationships. Pick a parameter below to see the individual characteristics. (Size is permanantly linked to population). </p>
       <svg id = "legendplot" height="300"></svg> 
       
     </div>
@@ -22,7 +22,7 @@
 
 <script>
 
-  var plotDiv       = document.getElementById("plot-container")
+  var plotDiv = document.getElementById("plot-container")
 
   var plotarea = d3.select("#mainplot")
     .attr("width", plotDiv.clientWidth)
@@ -32,9 +32,10 @@
   
   var simulation = d3.forceSimulation()
       .force("link", d3.forceLink().id(function(d) { return d.id; }))
-      .force("charge", d3.forceManyBody())
+      .force("charge", d3.forceManyBody().strength(-50).distanceMax(250))
+      .force("collide", d3.forceCollide().radius(15))
       .force("center", d3.forceCenter(+plotarea.attr("width") / 2, +plotarea.attr("height") / 2));
-  console.log()
+  
   
   //var formatPercent = d3.format(".0%"),
   //    formatNumber  = d3.format(".0f");
@@ -134,8 +135,12 @@
         .nodes(graph.nodes)
         .on("tick", ticked);
   
-    simulation.force("link")
-        .links(graph.links);
+    simulation
+        .force("link")
+          .links(graph.links)
+          .strength(function(d) { return Math.sqrt(d.value) / 2; })
+          .distance(function(d) { return Math.max(20, ( 1 /  Math.sqrt(d.value) ) * 60); })
+
   
     function ticked() {
       //console.log(plotDiv.clientWidth)
