@@ -96,7 +96,7 @@ ul.MenuBarHorizontal a
 	display: block;
 	cursor: pointer;
 	background-color: #FFF;
-	color: #0E2247;
+	color: #2c3e50;
 	text-decoration: none;
 	width: 189px;
 	padding-top: 4px;
@@ -107,14 +107,14 @@ ul.MenuBarHorizontal a
 /* Menu items that have mouse over or focus have a blue background and white text */
 ul.MenuBarHorizontal a:hover, ul.MenuBarHorizontal a:focus
 {
-	background-color: #0E2247;
-	color: #FFF;
+	background-color: #34495e;
+	color: #CCC;
 }
 /* Menu items that are open with submenus are set to MenuBarItemHover with a blue background and white text */
 ul.MenuBarHorizontal a.MenuBarItemHover, ul.MenuBarHorizontal a.MenuBarItemSubmenuHover, ul.MenuBarHorizontal a.MenuBarSubmenuVisible
 {
-	background-color: #0E2247;
-	color: #FFF;
+	background-color: #34495e;
+	color: #CCC;
 }
 
 /*******************************************************************************
@@ -178,8 +178,8 @@ ul.MenuBarHorizontal iframe
 ul.MenuBarHorizontal ul li a {
 	display: block;
 	cursor: pointer;
-	background-color: #C5C5DF;
-	color: #204492;
+	background-color: #34495e;
+	color: #FFF;
 	text-decoration: none;
 	width: 189px;
 	padding-top: 4px;
