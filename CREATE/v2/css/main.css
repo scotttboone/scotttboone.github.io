@@ -270,7 +270,8 @@
 	margin-top: 10px;
 	margin-right: 0px;
 	margin-bottom: 20px;
-	padding: 15px;
+	padding-left: 15px;
+	padding-right: 25px;
 }
 .contentnavbox a {
 	color: #FFF;
